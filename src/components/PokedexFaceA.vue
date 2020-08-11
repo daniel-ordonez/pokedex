@@ -36,14 +36,37 @@
         <screen-carousel :index="details ? 1 : 0" class="horizontal">
           <template v-slot:default>
             <div class="screen">
+
+    <!--list-->
               <div v-if="list.length > 0" key="list" class="list screen__content" >
                 <button v-for="(item, i) in filteredList" :key="`list-item-${i}`" class="list-item" :selected="item.id === index" @click="selectByItem(item)">
                   {{`${item.name}`}}
+                  <div class="hint-arrow">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#000000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M13 17l5-5-5-5M6 17l5-5-5-5"/></svg>
+                  </div>
                 </button>
               </div>
             </div>
             <div class="screen" >
+
+    <!--entry-->
               <screen-carousel class="vertical entry" :index="detailIndex">
+                  <div class="hint">
+                    <div>
+                      <svg v-show="detailIndex > 0" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#000000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M18 15l-6-6-6 6"/>
+                      </svg>
+                    </div>
+
+                    <div>
+                      {{`${detailIndex + 1}/${detailPanels}`}}
+                    </div>
+                    <div>
+                      <svg v-show="detailIndex < detailPanels - 1" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#000000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M6 9l6 6 6-6"/>
+                      </svg>
+                    </div>
+                  </div>
                   <div class="screen">
                     <div class="sprite" v-if="selected" >
                       <img :key="selected.id" :src="sprite" :alt="selected.name">
@@ -51,7 +74,7 @@
                     </div>
                   </div>
                 <template v-if="selected">
-                  <div class="screen">
+                  <div class="screen screen--entry">
                     <p>
                       {{selected.genera}}
                       <br>
@@ -154,6 +177,12 @@ export default {
       await wait(400) // animation length from one screen to another
       this.detailIndex = 0 // relocate panels in details screen
       this.lockNav = false
+      if (!details) { // reset sprite view
+        this.spriteView = {
+          shiny: false,
+          back: false
+        }
+      }
     }
   },
   computed: {
@@ -527,10 +556,41 @@ export default {
     padding: 8px 16px;
     text-transform: capitalize;
     text-align: left;
+    position: relative;
   }
   .list-item:hover,
   .list-item[selected] {
     background: rgba(0,0,0,0.16);
+  }
+  .list-item .hint-arrow {
+    position: absolute;
+    right: 0px;
+    top: calc(50% - 12px);
+    transform-origin: center center;
+    display: none;
+  }
+  .list-item[selected] .hint-arrow {
+    display: block;
+    margin: auto;
+    animation: hint-right 1.2s ease-out;
+    animation-iteration-count: infinite;
+  }
+  .hint-arrow>svg{
+    stroke: var(--green-3);
+  }
+  @keyframes hint-right {
+    0% {
+      transform: translateX(-100%);
+      opacity: 1;
+    }
+    30% {
+      transform: translateX(-100%);
+      opacity: 1;
+    }
+    to {
+      transform: translateX(0);
+      opacity: 0;
+    }
 }
 
 /*  ENTRY
@@ -580,6 +640,26 @@ export default {
     margin-top: 0;
     height: var(--lcd-h);
   }
+  .entry .hint {
+    display: grid;
+    grid-auto-flow: row;
+    grid-template-rows: 24px auto 24px;
+    row-gap: 8px;
+    position: absolute;
+    bottom: 0px;
+    top: 0px;
+    right: 8px;
+    color: var(--green-3);
+    opacity: .8;
+    align-content: center;
+  }
+  .entry .hint>svg {
+    stroke: var(--green-3);
+  }
+  .screen--entry p {
+    margin: 0;
+    padding-right: 24px;
+}
 
 /*
   #pokedex[state="processing"] [data-name="yellow-light"]>circle {
