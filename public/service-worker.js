@@ -1,6 +1,9 @@
 if (workbox) {
   console.log(`Workbox is loaded!`);
-  workbox.precaching.precacheAndRoute(self.__precacheManifest);
+  workbox.precaching.precacheAndRoute(self.__precacheManifest)
+  workbox.precaching.precacheAndRoute([
+    {url: '/index.html' }
+  ])
 
   let list = []
   for (let i = 1; i <= 151; i++) {
@@ -22,7 +25,7 @@ if (workbox) {
         }),
       ],
     }),
-  );
+  )
 
   workbox.routing.registerRoute(
     /\.(json)$/,
@@ -35,7 +38,7 @@ if (workbox) {
         }),
       ],
     }),
-  );
+  )
 
   workbox.routing.registerRoute(
     /\.(ogg)$/,
@@ -48,7 +51,7 @@ if (workbox) {
         }),
       ],
     }),
-  );
+  )
 
   workbox.routing.registerRoute(
     /\.(?:css|woff|woff2)$/,
@@ -61,7 +64,7 @@ if (workbox) {
         }),
       ],
     }),
-  );
+  )
 
 }
 else {
