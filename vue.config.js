@@ -4,7 +4,7 @@ module.exports = {
     manifestOptions: {
       "name": "Kanto Pokedex",
       "short_name": "Dex",
-      "start_url": "/index",
+      "start_url": "/",
       "display": "standalone",
       "background_color": "#ffffff",
       theme_color: "#f6313f",
@@ -47,11 +47,11 @@ module.exports = {
           "type": "image\/png",
           "density": "4.0"
          }
-      ]
-    },
-    workboxPluginMode: 'InjectManifest',
-    workboxOptions: {
-      swSrc: 'public/service-worker.js',
+      ],
+      workboxPluginMode: 'InjectManifest',
+      workboxOptions: {
+        swSrc: 'sw.js'
+      }
     }
   }
 }
