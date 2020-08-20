@@ -3,9 +3,9 @@ if (workbox) {
   workbox.precaching.precacheAndRoute(self.__precacheManifest)
 
   workbox.routing.registerRoute(
-    /\.\/$/,
+    /(\/)$/,
     workbox.strategies.cacheFirst({
-      cacheName: 'html',
+      cacheName: 'index',
       plugins: [
         new workbox.expiration.Plugin({
           maxEntries: 60,
@@ -27,15 +27,13 @@ if (workbox) {
     }),
   )
 
-
-
   let list = []
   for (let i = 1; i <= 151; i++) {
     list.push(`./cries/${i}.ogg`)
   }
 
   workbox.precaching.precacheAndRoute(list, {
-    directoryIndex: null,
+    directoryIndex: './',
   })
 
   workbox.routing.registerRoute(
