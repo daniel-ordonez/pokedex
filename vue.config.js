@@ -9,7 +9,7 @@ module.exports = {
       "background_color": "#ffffff",
       theme_color: "#f6313f",
       orientation: "portrait",
-      scope: "/",
+      scope: ".",
       icons: [
         {
           "src": "\/img\/icons\/android-icon-36x36.png",

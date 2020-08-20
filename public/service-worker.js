@@ -1,13 +1,37 @@
 if (workbox) {
   console.log(`Workbox is loaded!`);
   workbox.precaching.precacheAndRoute(self.__precacheManifest)
-  workbox.precaching.precacheAndRoute([
-    {url: '/index.html' }
-  ])
+
+  workbox.routing.registerRoute(
+    /\.\/$/,
+    workbox.strategies.cacheFirst({
+      cacheName: 'html',
+      plugins: [
+        new workbox.expiration.Plugin({
+          maxEntries: 60,
+          maxAgeSeconds: 30 * 24 * 60 * 60, // 30 Days
+        }),
+      ],
+    }),
+  )
+  workbox.routing.registerRoute(
+    /\.(js)$/,
+    workbox.strategies.StaleWhileRevalidate({
+      cacheName: 'scripts',
+      plugins: [
+        new workbox.expiration.Plugin({
+          maxEntries: 60,
+          maxAgeSeconds: 30 * 24 * 60 * 60, // 30 Days
+        }),
+      ],
+    }),
+  )
+
+
 
   let list = []
   for (let i = 1; i <= 151; i++) {
-    list.push(`/cries/${i}.ogg`)
+    list.push(`./cries/${i}.ogg`)
   }
 
   workbox.precaching.precacheAndRoute(list, {
@@ -39,7 +63,6 @@ if (workbox) {
       ],
     }),
   )
-
   workbox.routing.registerRoute(
     /\.(ogg)$/,
     workbox.strategies.cacheFirst({
