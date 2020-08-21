@@ -25,7 +25,7 @@
 </template>
 
 <script>
-
+import update from './mixins/update'
 import Hammer from 'hammerjs'
 import Pokedex from './components/Pokedex'
 import FaceA from './components/PokedexFaceA'
@@ -46,6 +46,7 @@ export default {
     FaceB,
     FaceC
   },
+  mixins: [update],
   data: () => ({
     right: false,
     breakpoints: {
@@ -54,6 +55,11 @@ export default {
       large: el => el.width > 822
     }
   }),
+  watch: {
+    updateExists (value) {
+      console.log(`update: ${value}`)
+    }
+  },
   computed: {
     size () { return this.$store.state.size },
     status: {

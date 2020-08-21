@@ -50,7 +50,7 @@ module.exports = {
       ],
       workboxPluginMode: 'InjectManifest',
       workboxOptions: {
-        swSrc: 'sw.js'
+        swSrc: 'service-worker.js'
       }
     }
   }
